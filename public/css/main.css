@@ -1,0 +1,15 @@
+.bottom-bar
+{
+	position: fixed;
+	left: 0; bottom: 0;
+	width: 50%;
+	height: 20%;
+
+	background-color: #a00;
+
+}
+.bottom-bar div
+{
+	/*transition: all 0.2s ease;*/
+}
+/*.bottom-bar.show { height: 100px }*/
