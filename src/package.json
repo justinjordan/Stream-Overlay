@@ -2,17 +2,18 @@
   "name": "stream-overlay",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "pm2 start index.js",
-    "stop": "pm2 stop index.js",
-    "test": "node index.js"
+    "start": "pm2 start server.js",
+    "stop": "pm2 stop server.js",
+    "test": "node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.2",
     "naudiodon": "^0.1.2",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "stereo-analyser-node": "^1.0.0"
   }
 }

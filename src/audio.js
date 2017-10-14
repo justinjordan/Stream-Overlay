@@ -1,12 +1,22 @@
 const portAudio = require('naudiodon');
+const san = require('stereo-analyser-node');
 const fs = require('fs');
 
 module.exports = new (function() {
 
+	var _this = this;
+
+	var audio_data;
 	this.getDevices = portAudio.getDevices;
 
 	this.monitor = function(device, callback)
 	{
+		if (typeof callback !== 'function')
+		{
+			console.error('audio.monitor: callback not a function');
+			return;
+		}
+
 		var deviceId = null;
 		switch (typeof device)
 		{
@@ -45,7 +55,32 @@ module.exports = new (function() {
 		});
 
 		// Send audio buffer back to callback :)
-		pr.on('data', callback);
+		pr.on('data', function(buffer) {
+			_this.analyze_audio(buffer).then(callback, console.error);
+		});
+	};
+
+	this.analyze_audio = function(buffer, callback)
+	{
+		audio_data = [];
+		for (var x in buffer)
+		{
+			audio_data.push(buffer[x]);
+		}
+
+		// use promise
+		if (typeof callback !== 'function')
+		{
+			return new Promise(function(resolve, reject) {
+				if (!audio_data)
+					{ reject('No audio_data to send!'); }
+
+				resolve(audio_data);
+			});
+		}
+
+		// use callback
+		callback(audio_data);
 	};
 
 });
