@@ -34,7 +34,7 @@ var stream_overlay = new (function() {
 
 	this.handle_audio_response = function(data)
 	{
-		console.log('Received audio response: ', data);
+		console.log(data);
 	};
 });
 $(stream_overlay.init);

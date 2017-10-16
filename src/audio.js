@@ -1,4 +1,5 @@
 const portAudio = require('naudiodon');
+const AudioContext = require('web-audio-api').AudioContext;
 const san = require('stereo-analyser-node');
 const fs = require('fs');
 
@@ -45,7 +46,7 @@ module.exports = new (function() {
 		var pr = new portAudio.AudioReader({
 			channelCount: 2,
 			sampleFormat: portAudio.SampleFormat8Bit,
-			sampleRate: 1000,
+			sampleRate: 44100,
 			deviceId: deviceId
 		});
 
@@ -62,11 +63,28 @@ module.exports = new (function() {
 
 	this.analyze_audio = function(buffer, callback)
 	{
-		audio_data = [];
-		for (var x in buffer)
+		var ctx = new AudioContext();
+		var audioBuffer = ctx.createBuffer(2, 256, 44100);
+
+		var index;
+		var left = audioBuffer.getChannelData(0);
+		var right = audioBuffer.getChannelData(1);
+		for (var i = 0; i < buffer.length; i++)
 		{
-			audio_data.push(buffer[x]);
+			index = Math.floor(i/2);
+			if (i%2==0)
+			{
+				left[index] = buffer[i];
+			}
+			else
+			{
+				right[index] = buffer[i];
+			}
 		}
+		audio_data = {
+			left: left,
+			right: right
+		};
 
 		// use promise
 		if (typeof callback !== 'function')
