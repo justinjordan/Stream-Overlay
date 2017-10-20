@@ -13,7 +13,7 @@ module.exports = new (function() {
 	// var audioSource = audioCtx.createBufferSource();
 
 	this.getDevices = portAudio.getDevices;
-	console.log(this.getDevices());
+	// console.log(this.getDevices());
 
 	this.monitor = function(device, callback)
 	{

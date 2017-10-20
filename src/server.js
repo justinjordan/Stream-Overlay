@@ -10,6 +10,8 @@ var socket;
 const audio = require('./audio');
 var audio_data;
 
+var emit_rate = 1000/30;
+
 // Settings
 var opts = {
 	audio_device	: 0,
@@ -25,10 +27,13 @@ io.on('connection', function(s) {
 
 	s.emit('connected');
 
-	s.on('audio_request', function(data) {
-		console.log('audio_request');
+	setInterval(function() {
 		s.emit('audio_data', audio_data);
-	});
+	}, emit_rate);
+	// s.on('audio_request', function(data) {
+	// 	// console.log('audio_request');
+	// 	s.emit('audio_data', audio_data);
+	// });
 });
 
 // Serve client-side files (html, css, js)

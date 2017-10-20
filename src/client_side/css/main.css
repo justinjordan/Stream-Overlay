@@ -15,6 +15,8 @@ body
 	height: 0%;
 	bottom: 0;
 	text-align: center;
+
+	transition: height 200ms ease; /* slower for smoother */
 }
 
 .visualizer .inner-bar
