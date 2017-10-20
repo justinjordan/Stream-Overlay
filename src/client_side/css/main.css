@@ -1,15 +1,26 @@
-.bottom-bar
+body
+{
+	position: relative;
+}
+
+.visualizer
 {
 	position: fixed;
-	left: 0; bottom: 0;
-	width: 50%;
-	height: 20%;
-
-	background-color: #a00;
-
+	top: 0; right: 0; bottom: 0; left: 0;
 }
-.bottom-bar div
+
+.visualizer .bar
 {
-	/*transition: all 0.2s ease;*/
+	position: absolute;
+	height: 0%;
+	bottom: 0;
+	text-align: center;
 }
-/*.bottom-bar.show { height: 100px }*/
+
+.visualizer .inner-bar
+{
+	width: 50%;
+	height: 100%;
+
+	background-color: #0cf;
+}

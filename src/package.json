@@ -11,8 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "audio-render": "^2.0.1",
     "express": "^4.16.2",
     "naudiodon": "^0.1.2",
+    "pcm-util": "^3.0.0",
     "socket.io": "^2.0.3",
     "stereo-analyser-node": "^1.0.0",
     "web-audio-api": "^0.2.2"

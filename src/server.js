@@ -12,7 +12,7 @@ var audio_data;
 
 // Settings
 var opts = {
-	audio_device	: null,
+	audio_device	: 0,
 	// device NAME or ID; null is mic
 	// use audio.getDevice() to list devices
 
