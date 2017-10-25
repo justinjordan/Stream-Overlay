@@ -22,23 +22,28 @@ var LogoVisualizer = function() {
         }
 
         var sum = 0;
-        // var l = Math.floor(data.length/20);
-        var v;
+        var db, amp;
         var sum = 0;
         var max = 0;
-        var s = 8;
-        var l = 4;
+        // var s = 4;
+        var l = 1;
+        var s = 2;
+        // var l = data.length;
+        l = (data.length < l ? data.length : l);
+
         for (var i = s; i < s + l; i++)
         {
-            v = (data[i]+100) / 100;
-            sum += v;
-            if (v > max)
+            db = data[i];
+            amp = Math.pow(10, db/20);
+
+            // sum += amp;
+            if (amp > 0.002 && amp > max)
             {
-                max = v;
+                max = amp;
             }
         }
         // size = sum / l;
-        size = max;
+        size = 100 * max;
         size = (size < 0 ? 0 : size > 1 ? 1 : size);
     };
 
@@ -46,7 +51,7 @@ var LogoVisualizer = function() {
     {
         // var min = 0.5;
         // var scale = (1-min) * size + min;
-        var min = 0.5;
+        var min = 0.8;
         var max = 1;
         var scale = max - size * (max - min);
         img.style.transform = "scale("+ scale +")";
