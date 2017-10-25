@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Logo Visualizer</title>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" type="text/css" href="/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+	</head>
+	<body>
+
+		<img id="logo" src="/images/logo.png"/>
+		<!-- <img id="logo" src="/images/logo.png" style="display: none;"/> -->
+		<!-- <canvas id="visualizer"></canvas> -->
+
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<script src="/js/socket.io.slim.js"></script>
+		<script src="/js/client.js"></script>
+		<script src="/js/logo_visualizer.js"></script>
+        <script>
+            stream_overlay.visualizer = new LogoVisualizer();
+			stream_overlay.visualizer.init();
+        </script>
+	</body>
+</html>

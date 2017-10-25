@@ -1,28 +1,19 @@
 body
 {
 	position: relative;
+	background-color: #000;
 }
 
-.visualizer
+#visualizer
 {
 	position: fixed;
 	top: 0; right: 0; bottom: 0; left: 0;
 }
 
-.visualizer .bar
+#logo
 {
-	position: absolute;
-	height: 0%;
-	bottom: 0;
-	text-align: center;
-
-	transition: height 200ms ease; /* slower for smoother */
-}
-
-.visualizer .inner-bar
-{
-	width: 50%;
-	height: 100%;
-
-	background-color: #0cf;
+	width: 100%;
+	height: auto;
+	will-change: transform;
+	transition: transform 50ms linear;
 }

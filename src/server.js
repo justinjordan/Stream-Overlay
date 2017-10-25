@@ -1,50 +1,84 @@
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 const express = require('express');
 const path = require('path');
-const app = express();
+const web = express();
 
 const http = require('http');
-const server = http.createServer(app);
+const server = http.createServer(web);
 const io = require('socket.io')(server);
 var socket;
 
 const audio = require('./audio');
 var audio_data;
 
-var emit_rate = 1000/30;
-
 // Settings
-var opts = {
-	audio_device	: 0,
-	// device NAME or ID; null is mic
-	// use audio.getDevice() to list devices
+var port = 3000;
+var audio_device = process.argv[2];
 
-	port		: 3000,
-};
+var app = new (function() {
+	this.init = function(audio_device)
+	{
+		// Socket server
+		io.on('connection', function(s) {
+			s.emit('connected');
+			s.on('audio_request', function(data) {
+				s.emit('audio_data', audio_data);
+			});
+		});
 
-// Socket server
-io.on('connection', function(s) {
-	console.log('Socket connected.');
+		// Serve client-side files (html, css, js)
+		web.use(express.static(path.join(__dirname, 'client_side')));
 
-	s.emit('connected');
+		// Start server
+		server.listen(port, function() {
+			console.log('Server running on port: '+ port + "\n");
+		});
 
-	setInterval(function() {
-		s.emit('audio_data', audio_data);
-	}, emit_rate);
-	// s.on('audio_request', function(data) {
-	// 	// console.log('audio_request');
-	// 	s.emit('audio_data', audio_data);
-	// });
+		// Handle captured audio
+		// console.log(audio.getDevices());
+		audio.monitor(audio_device, function(data) {
+			audio_data = data;
+		});
+	}
 });
 
-// Serve client-side files (html, css, js)
-app.use(express.static(path.join(__dirname, 'client_side')));
+// Ask user which sound device to user
+if (!audio_device)
+{
+	var devices = audio.getDevices();
+	var options = {};
+	var num = 1;
+	for (var i = 0; i < devices.length; i++)
+	{
+		if (devices[i].maxInputChannels==0)
+			{ continue; }
 
-// Start server
-server.listen(opts.port, function() {
-	console.log('Server running on port: '+ opts.port);
-});
+		options[num] = devices[i].id;
+		process.stdout.write(num + ") " + devices[i].name + "\n");
+		num++;
+	}
+	process.stdout.write("\n");
 
-// Handle captured audio
-audio.monitor(opts.audio_device, function(data) {
-	audio_data = data;
-});
+	rl.question('Which sound device? ', (answer) => {
+		if (typeof options[answer] === 'undefined')
+		{
+			process.stdout.write("\n*** Please choose a number from the options. ***\n\n");
+			rl.close();
+			return;
+		}
+
+		var num = options[answer];
+
+		process.stdout.write("\n");
+		app.init(num);
+		rl.close();
+	});
+}
+else
+{
+	app.init();
+}
