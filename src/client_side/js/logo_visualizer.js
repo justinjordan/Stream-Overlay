@@ -51,9 +51,10 @@ var LogoVisualizer = function() {
     {
         // var min = 0.5;
         // var scale = (1-min) * size + min;
-        var min = 0.8;
+        var min = 0.9;
         var max = 1;
-        var scale = max - size * (max - min);
+        // var scale = max - size * (max - min);
+        var scale = (1-min) * size + min;
         img.style.transform = "scale("+ scale +")";
         // context.clearRect(0, 0, canvas.width, canvas.height);
         //

@@ -15,5 +15,5 @@ body
 	width: 100%;
 	height: auto;
 	will-change: transform;
-	transition: transform 200ms ease;
+	transition: transform 80ms ease-in;
 }
